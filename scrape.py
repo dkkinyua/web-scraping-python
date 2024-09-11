@@ -1,16 +1,15 @@
-from bs4 import BeautifulSoup
 import requests
+import os
+from dotenv import load_dotenv
+from bs4 import BeautifulSoup
 
-with open('sample.html') as html_file:
-    soup = BeautifulSoup(html_file, 'lxml')
+load_dotenv()
 
-for article in soup.find_all('div', class_='header'):
-    heading = article.h3.text
-    print(heading)
+source = requests.get(os.getenv('WEBSITE_URL')).text
 
-    content = article.p.text
-    print(content)
+soup = BeautifulSoup(source, 'lxml')
 
-    print()
+heading = soup.find('h4').text
 
-    
+print(heading)
+
